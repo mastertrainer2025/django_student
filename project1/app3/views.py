@@ -38,3 +38,6 @@ def home(request):
 def logout(request): 
     messages.info(request, "You have been logged out.")
     return redirect('register')
+
+def upload(request):
+    return render(request , 'upload.html')
