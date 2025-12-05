@@ -1,0 +1,39 @@
+<h2>Add New Student</h2>
+
+{% if messages %}
+    <ul class="messages">
+        {% for message in messages %}
+            <li style="color: green; font-weight: bold;">{{ message }}</li>
+        {% endfor %}
+    </ul>
+{% endif %}
+
+<form method="post" action="{% url 'add_student' %}">
+    {% csrf_token %}
+    
+    {% if errors %}
+        <p style="color: red;">Please correct the following errors:</p>
+        <ul>
+            {% for error in errors %}
+                <li style="color: red;">{{ error }}</li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+
+    <label for="name">Student Name:</label><br>
+    <input type="text" id="name" name="name" required><br><br>
+
+    <label for="student_id">Student ID (Unique):</label><br>
+    <input type="text" id="student_id" name="student_id" required><br><br>
+
+    <label for="email">Email (Unique):</label><br>
+    <input type="email" id="email" name="email" required><br><br>
+
+    <label for="grade">Grade:</label><br>
+    <input type="text" id="grade" name="grade" required><br><br>
+
+    <button type="submit">Save Student</button>
+</form>
+
+<hr>
+<p><a href="{% url 'student_list' %}">View All Students</a></p>
