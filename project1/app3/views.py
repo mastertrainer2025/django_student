@@ -3,6 +3,9 @@ from django.http import HttpResponse
 from django.shortcuts import render, redirect
 from django.contrib import messages
 from .models import Employee, User
+from django.shortcuts import render, redirect
+from django import forms
+from .models import SimpleImage
 
 
 
@@ -39,5 +42,27 @@ def logout(request):
     messages.info(request, "You have been logged out.")
     return redirect('register')
 
-def upload(request):
-    return render(request , 'upload.html')
+# myapp/views.py
+
+# Create a simple ModelForm right in the view for maximum simplicity
+class SimpleImageForm(forms.ModelForm):
+    class Meta:
+        model = SimpleImage
+        fields = ['title', 'image']
+
+def upload_image(request):
+    if request.method == 'POST':
+        # Pass request.POST for text data and request.FILES for the file
+        form = SimpleImageForm(request.POST, request.FILES)
+        if form.is_valid():
+            form.save() # Saves the file and stores the path in the database
+            return redirect('upload_success') # Redirect after successful upload
+    else:
+        form = SimpleImageForm()
+
+    all_images = SimpleImage.objects.all() # Fetch existing images for display
+    return render(request, 'upload.html', {'form': form, 'images': all_images})
+
+def upload_success(request):
+    # A simple success page or redirect back to the upload page
+    return render(request, 'success.html')

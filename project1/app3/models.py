@@ -17,3 +17,21 @@ class User(models.Model):
 
     def __str__(self):
         return self.username
+    
+class ImageModel(models.Model):
+    title = models.CharField(max_length=200)
+    # ImageField automatically uses Pillow to validate the file is an image.
+    # upload_to='images/' specifies a subdirectory inside MEDIA_ROOT
+    image = models.ImageField(upload_to='images/')
+
+    def __str__(self):
+        return self.title
+    
+
+class SimpleImage(models.Model):
+    title = models.CharField(max_length=100)
+    # The image file will be saved inside 'media/uploads/'
+    image = models.ImageField(upload_to='uploads/') 
+    
+    def __str__(self):
+        return self.title

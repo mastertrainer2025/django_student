@@ -23,8 +23,16 @@ urlpatterns = [
     path('login/', views.login, name='login'),
     path('logout/', views.logout, name='logout'),
     path('register/', views.register, name='register'),
-    path('upload',views.upload,name='upload')
-
-
-
+    path('upload/', views.upload_image, name='upload_image'),
+    path('success/', views.upload_success, name='upload_success'),
 ]
+
+
+# project/urls.py
+from django.conf import settings
+from django.conf.urls.static import static
+
+# ... your existing urlpatterns ...
+
+if settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
